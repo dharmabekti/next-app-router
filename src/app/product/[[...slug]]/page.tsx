@@ -7,16 +7,21 @@ type ProductPageProps = {
 };
 
 async function getData() {
-  const res = await fetch("https://fakestoreapi.com/products");
-  if (!res.ok) throw new Error("Failed to fetch data");
-  return res.json();
+  const data = await fetch("https://fakestoreapi.com/products").then((res) =>
+    res.json()
+  );
+  return <div>{data.title}</div>;
+
+  // const res = await fetch("https://fakestoreapi.com/products");
+  // if (!res.ok) throw new Error("Failed to fetch data");
+  // return res.json();
 }
 
-export default function ProductPage({ params }: ProductPageProps) {
+export default async function ProductPage({ params }: ProductPageProps) {
   const unwrappedParams = use(params); // Menggunakan React.use untuk unwrap
   const slug = unwrappedParams.slug;
-  // const data = await getData();
-  // console.log(data);
+  const data = await getData();
+  console.log(data);
 
   return (
     <div>
