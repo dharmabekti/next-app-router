@@ -3,69 +3,47 @@ import { NextRequest, NextResponse } from "next/server";
 const data = [
   {
     id: 1,
-    name: "Product 1",
-    price: 100000,
+    title: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+    price: 109.95,
+    image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
   },
   {
     id: 2,
-    name: "Product 2",
-    price: 200000,
+    title: "Mens Casual Premium Slim Fit T-Shirts ",
+    price: 22.3,
+    image:
+      "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg",
   },
+  {
+    id: 3,
+    title: "Mens Cotton Jacket",
+    price: 55.99,
+    image: "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg",
+  },
+  // {
+  //   id: 4,
+  //   title: "Mens Casual Slim Fit",
+  //   price: 15.99,
+  //   image: "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg",
+  // },
 ];
 
 export async function GET(req: NextRequest) {
-  try {
-    const { searchParams } = new URL(req.url);
-    const id = searchParams.get("id");
-    console.log("ID:", id);
+  const { searchParams } = new URL(req.url);
+  const id = searchParams.get("id");
+  console.log(id);
 
-    let response;
-
-    if (id) {
-      const detailProduct = data.find((item) => item.id == Number(id));
-      if (!detailProduct) {
-        return NextResponse.json(
-          { status: 404, message: "Not Found", data: [] },
-          { status: 404 }
-        );
-      }
-      response = NextResponse.json(
-        { status: 200, message: "success", data: detailProduct },
-        { status: 200 }
-      );
-    } else {
-      response = NextResponse.json(
-        { status: 200, message: "success", data },
-        { status: 200 }
-      );
+  if (id) {
+    const detailProduct = data.find((item) => item.id == Number(id));
+    if (!detailProduct) {
+      return NextResponse.json({ status: 404, message: "Not Found", data: [] });
     }
-
-    // Tambahkan header CORS
-    response.headers.set("Access-Control-Allow-Origin", "*");
-    response.headers.set("Access-Control-Allow-Methods", "GET, OPTIONS");
-    response.headers.set(
-      "Access-Control-Allow-Headers",
-      "Content-Type, Authorization"
-    );
-
-    return response;
-  } catch (error) {
-    console.error("Server Error:", error);
-    return NextResponse.json(
-      { status: 500, message: "Internal Server Error" },
-      { status: 500 }
-    );
+    return NextResponse.json({
+      status: 200,
+      message: "success",
+      data: detailProduct,
+    });
   }
-}
 
-// Tangani preflight request (OPTIONS method)
-export async function OPTIONS() {
-  return new Response(null, {
-    status: 204,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    },
-  });
+  return NextResponse.json({ status: 200, message: "success", data });
 }
