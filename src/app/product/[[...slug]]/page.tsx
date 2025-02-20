@@ -7,25 +7,29 @@ type ProductPageProps = {
 };
 
 async function getData() {
-  const data = await fetch("https://fakestoreapi.com/products").then((res) =>
-    res.json()
-  );
-  return <div>{data.title}</div>;
-
-  // const res = await fetch("https://fakestoreapi.com/products");
-  // if (!res.ok) throw new Error("Failed to fetch data");
-  // return res.json();
+  // fetch("https://fakestoreapi.com/products", { mode: "no-cors" })
+  //   .then((res) => res.text()) // Gunakan `.text()` karena `json()` tidak akan berfungsi dalam mode `no-cors`
+  //   .then((text) => console.log("Raw Response:", text))
+  //   .catch((err) => console.error("Fetch Error:", err));
+  const res = await fetch("");
+  if (!res.ok) throw new Error("Failed to fetch data");
+  return res.json();
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const unwrappedParams = use(params); // Menggunakan React.use untuk unwrap
   const slug = unwrappedParams.slug;
-  const data = await getData();
-  console.log(data);
+  const products = await getData();
 
   return (
     <div>
       <h1>{slug ? "Detail Product Page" : "Product Page"}</h1>
+      {products.length > 0 &&
+        products.map((product: any) => (
+          <div key={product.id}>
+            <h4>{product.title}</h4>
+          </div>
+        ))}
       {slug && (
         <>
           <p>Category: {slug[0]}</p>
