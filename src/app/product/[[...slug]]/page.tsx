@@ -5,14 +5,14 @@ type ProductPageProps = {
 };
 
 async function getData() {
-  // const res = await fetch("https://fakestoreapi.com/products");
-  const res = await fetch("http://localhost:3000/api/product", {
-    cache: "force-cache",
-    next: {
-      tags: ["products"],
-      // revalidate: 20
-    },
-  });
+  const res = await fetch("https://fakestoreapi.com/productss");
+  // const res = await fetch("http://localhost:3000/api/product", {
+  //   cache: "no-cache",
+  //   next: {
+  //     tags: ["products"],
+  //     // revalidate: 20
+  //   },
+  // });
   if (!res.ok) throw new Error("Failed to fetch data");
   return res.json();
 }
@@ -25,8 +25,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
   return (
     <div className="grid grid-cols-5 gap-2 mt-5 place-items-center">
       {/* <h1>{slug ? "Detail Product Page" : "Product Page"}</h1> */}
-      {products.data.length > 0 &&
-        products.data.map((product: any) => (
+      {products.length > 0 &&
+        products.map((product: any) => (
           <div
             key={product.id}
             className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700"
