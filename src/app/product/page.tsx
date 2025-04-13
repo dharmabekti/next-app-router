@@ -9,8 +9,10 @@ type ProductPageProps = {
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
-  const products = await getData("https://fakestoreapi.com/products");
-  console.log(products);
+  // const products = await getData("https://fakestoreapi.com/products");
+  const productsAll = await getData("http://localhost:3000/api/product/");
+  const products = productsAll.data;
+  console.log(productsAll.data);
 
   return (
     <div className="grid grid-cols-5 gap-2 mt-5 place-items-center">
@@ -29,7 +31,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             />
             <div className="px-5 pb-5">
               <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white truncate">
-                {product.title}
+                {product.name}
               </h5>
               <div className="flex items-center justify-between mt-3">
                 <span className="text-3xl font-bold text-gray-900 dark:text-white">

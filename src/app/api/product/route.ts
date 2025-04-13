@@ -1,3 +1,6 @@
+import app from "@/lib/firebase/init";
+import { retrieveData, retrieveDatabyId } from "@/lib/firebase/service";
+import { getFirestore } from "firebase/firestore";
 import { NextRequest, NextResponse } from "next/server";
 
 const data = [
@@ -34,7 +37,8 @@ export async function GET(req: NextRequest) {
   console.log(id);
 
   if (id) {
-    const detailProduct = data.find((item) => item.id == Number(id));
+    // const detailProduct = data.find((item) => item.id == Number(id)); //
+    const detailProduct = await retrieveDatabyId("products", id);
     if (!detailProduct) {
       return NextResponse.json({ status: 404, message: "Not Found", data: [] });
     }
@@ -45,5 +49,7 @@ export async function GET(req: NextRequest) {
     });
   }
 
-  return NextResponse.json({ status: 200, message: "success", data });
+  const products = await retrieveData("products");
+
+  return NextResponse.json({ status: 200, message: "success", data: products });
 }

@@ -10,3 +10,8 @@ export const getData = async (url: string) => {
   if (!res.ok) throw new Error("Failed to fetch data");
   return res.json();
 };
+
+// export const getData = async (url: string) => {
+//   if (!res.ok) throw new Error("Failed to fetch data");
+//   return res.json();
+// };
