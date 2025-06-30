@@ -25,7 +25,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <SessionProvider>
-          {!disableNavbar.includes(pathname) && <Navbar></Navbar>}
+          {!disableNavbar.includes(pathname) && <Navbar />}
           {children}
         </SessionProvider>
       </body>
