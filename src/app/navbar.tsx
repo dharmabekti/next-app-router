@@ -1,9 +1,11 @@
 "use client";
 
+import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 export default function Navbar() {
+  const { status }: { status: string } = useSession();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -42,12 +44,21 @@ export default function Navbar() {
         </ul>
       </div>
       <div>
-        <button
-          className="bg-white rounded-md px-3 text-sm h-7 cursor-pointer"
-          onClick={() => router.push("/login")}
-        >
-          Sign In
-        </button>
+        {status === "authenticated" ? (
+          <button
+            className="bg-white rounded-md px-3 text-sm h-7 cursor-pointer"
+            onClick={() => signOut()}
+          >
+            Sign Out
+          </button>
+        ) : (
+          <button
+            className="bg-white rounded-md px-3 text-sm h-7 cursor-pointer"
+            onClick={() => signIn()}
+          >
+            Sign In
+          </button>
+        )}
       </div>
     </nav>
   );
